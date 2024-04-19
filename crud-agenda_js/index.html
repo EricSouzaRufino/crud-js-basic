@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agenda</title>
+</head>
+
+<body>
+    <script>
+        // Objeto para armazenar os contatos
+        let arrAgenda = [];
+
+        function showMenu() {
+            return parseInt(prompt(
+                `
+                ****** MENU ******
+                [1] -> Cadastrar Contato
+                [2] -> Visualizar Contato
+                [3] -> Atualizar Contato
+                [4] -> Deletar Contato
+                [5] -> Sair do programa
+               `
+            ));
+        }
+
+        function addContact() {
+            const nome = prompt('Insira o nome do contato');
+            const email = prompt('Insira o email');
+            const numero = prompt('Insira o numero do contato');
+            const dataHora = new Date();
+
+            if (!nome || !email || !numero) {
+                alert('Dados invalidos, tente novamente')
+                return;
+            }
+
+            const dataHoraFormatada = ('Cadastrado em: ' + dataHora.toLocaleString())
+
+            arrAgenda.push({ nome, email, numero, dataHoraFormatada })
+            console.log(arrAgenda)
+        }
+
+        function viewContact() {
+            let viewContact = ''
+            arrAgenda.forEach((dataContact) => {
+                viewContact += `\nNome: ${dataContact.nome}\nEmail: ${dataContact.email}\nTelefone: ${dataContact.numero}\nData: ${dataContact.dataHoraFormatada}\n\n`
+            })
+            alert(`Lista de contatos atual: ${viewContact}`)
+            console.log(arrAgenda)
+        }
+
+        function uptadeContact() {
+            const contactFind = prompt('Insira o e-mail que voce deseja atualizar')
+            const usuarioEncontrado = arrAgenda.find((user => user.email == contactFind
+            ))
+
+            if (!usuarioEncontrado) {
+                alert('Usuario nao encontrado')
+                return;
+            }
+            const novoNome = prompt('Insira o novo nome para atualizar')
+            const novoEmail = prompt('Insira o novo email para atualizar')
+            const novoNumero = parseInt(prompt('Insira o novo numero para atualizar'))
+
+            if (novoNome) {
+                usuarioEncontrado.nome = novoNome
+            }
+            if (novoEmail) {
+                usuarioEncontrado.email = novoEmail
+            }
+            if (novoNumero) {
+                usuarioEncontrado.numero = novoNumero
+            }
+            alert('Contato atualizado com sucesso!!!')
+        }
+
+        function deleteContact() {
+            const contactDelete = prompt('Insira o email do contato que voce deseja deletar')
+            const contactDeleteFind = arrAgenda.findIndex((user => user.email === contactDelete))
+
+            
+            if (contactDeleteFind === -1) {
+                alert('Contato não encontrado')
+                return;
+            }
+            
+            const confirm = window.confirm('Deseja realmente deletar o usuario' + contactDelete + '?');
+
+            if (confirm) {
+                arrAgenda.splice(contactDeleteFind, 1)
+            }
+
+            alert('Contato deletado com sucesso')
+        }
+
+        let loopBreak = true
+
+        while (loopBreak) {
+
+            switch (showMenu()) {
+                case 1:
+                    addContact();
+                    break
+
+                case 2:
+                    viewContact();
+                    break;
+
+                case 3:
+                    uptadeContact();
+                    break;
+
+                case 4:
+                    deleteContact();
+                    break;
+
+                case 5:
+                    alert("Saindo do programa");
+                    loopBreak = false
+                    break;
+
+                default:
+                    alert('Opção invalida')
+            }
+        }
+
+    </script>
+</body>
+
+</html>
